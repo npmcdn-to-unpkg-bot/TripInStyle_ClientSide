@@ -9,14 +9,14 @@ import {BottomMenuComponent} from "./bottommenu.component";
 
 @Component({
     selector: 'events',
-    templateUrl: 'html/events.component.html',
+    templateUrl: 'html/favorites.component.html',
     styleUrls: ['css/events.component.css'],
     directives: [
         BottomMenuComponent
     ]
 })
 
-export class EventsComponent implements OnInit {
+export class FavoriteComponent implements OnInit {
     private events:Event[] = [];
     private isInitialized:boolean = false;
     private userCategoriesMenu:Category[] = [];
@@ -47,13 +47,13 @@ export class EventsComponent implements OnInit {
 
     changeFavoriteStatus(event:Event) {
         this.loginService.changeFavorite(event._id).
-            subscribe(
+        subscribe(
             res => {
                 if( res )
                     this.events.find(ev => event === ev).changeFavorite();
             });
         //this.loginService.userLoggedIn.changeFavorite(event._id);
-        
+
     }
 
     private seeEventDetails(event:any) {
@@ -74,26 +74,12 @@ export class EventsComponent implements OnInit {
     }
 
     getEvents() {
-        this.selectedCategories = this.userCategoriesMenu
-            .filter(cat => cat.selected == true);
-
-        console.log("Selected categories");
-        console.log(this.selectedCategories);
-
-        if (this.selectedCategories.length > 0) {
-            this.eventsService.getEventsOfCategories(this.selectedCategories)
-                .then(events => {
-                    this.events = events;
-                    this.loginService.userLoggedIn.favorites.forEach(eventId => {
-                        if(this.events.findIndex(event => event._id == eventId) > -1)
-                            this.events.find(event => event._id == eventId).isFavorite = true;
-                    });
-                    this.isInitialized = true;
-                });
-        }
-        else {
-            this.events = [];
-        }
+        this.eventsService.getUserFavorite(this.loginService.userLoggedIn.email)
+            .then(events => {
+                this.events = events;
+                this.events.forEach(event => event.isFavorite = true);
+                this.isInitialized = true;
+            });
     }
 
     addStateFilter() {
@@ -102,8 +88,8 @@ export class EventsComponent implements OnInit {
     }
 
     private goBack() {
-        this.eventDetails = false;
-        this.chosenEvent = null;
+        this.loginService.changeMenu("home");
+        window.history.back();
     }
 
     private seeMore() {

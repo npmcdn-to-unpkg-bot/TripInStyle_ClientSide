@@ -1,0 +1,8 @@
+<nav class="mainMenuNav">
+    <ul>
+        <li id="home" [class.selected]="loginService.menuSelected == 'home'" (click)="navigate('home')"></li>
+        <li id="favorite" [class.selected]="loginService.menuSelected == 'favorite'" (click)="navigate('favorite')"></li>
+        <li id="ticket" [class.selected]="loginService.menuSelected == 'ticket'" (click)="navigate('ticket')"></li>
+        <li id="profil"></li>
+    </ul>
+</nav>

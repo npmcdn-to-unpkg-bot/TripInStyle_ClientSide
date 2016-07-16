@@ -8,6 +8,8 @@ import {EventsComponent} from "./events.component";
 import {StateSearchComponent} from "./state-search.component";
 import {StateComponent} from "./state.component";
 import {LoginComponent} from "./login.component";
+import {LoginService} from "./login.service";
+import {FavoriteComponent} from "./favorites.component";
 
 @Component({
     selector: 'my-app',
@@ -16,6 +18,7 @@ import {LoginComponent} from "./login.component";
         ROUTER_DIRECTIVES
     ],
     providers: [
+        LoginService,
         EventsService
     ]
 })
@@ -25,7 +28,6 @@ import {LoginComponent} from "./login.component";
         path: '/categories',
         name: 'Categories',
         component: CategoryComponent,
-        useAsDefault: true
     },
     {
         path: '/events',
@@ -45,7 +47,13 @@ import {LoginComponent} from "./login.component";
     {
         path: '/login',
         name: 'Login',
-        component: LoginComponent
+        component: LoginComponent,
+        useAsDefault: true
+    },
+    {
+        path: '/favorites',
+        name: 'Favorites',
+        component: FavoriteComponent
     }
 ])
 

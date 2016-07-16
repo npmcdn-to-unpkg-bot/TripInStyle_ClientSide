@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router-deprecated';
 
 import {Category} from "./category";
 import {EventsService} from "./events.service";
+import {LoginService} from "./login.service";
 var constants = require('./constants');
 
 @Component({
@@ -11,14 +12,13 @@ var constants = require('./constants');
     styleUrls: ['css/category.component.css']
 })
 
-export class CategoryComponent {
+export class CategoryComponent implements OnInit{
     categoriesMenu: Category[] = [];
     choosenCategories: number = 0;
 
     constructor(private eventsService: EventsService,
-                private router: Router) {
-        this.eventsService.getCategories()
-            .then(categories => this.categoriesMenu = categories);
+                private router: Router,
+                private loginService: LoginService) {
     }
 
     addAtMyCategory(selectedCategory: Category) {
@@ -41,5 +41,19 @@ export class CategoryComponent {
             .then(events => {
                 console.log(events);
             });
+    }
+
+    ngOnInit() {
+        if("undefined" === typeof this.loginService.userLoggedIn)
+            this.router.navigate(['Login']);
+        //console.log(this.loginService.userLoggedIn);
+        else {
+            this.eventsService.getCategories()
+                .then(categories => {
+                    console.log("Got categories:");
+                    console.log(categories);
+                    this.categoriesMenu = categories
+                });
+        }
     }
 }

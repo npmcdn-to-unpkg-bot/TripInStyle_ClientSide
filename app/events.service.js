@@ -22,11 +22,13 @@ var EventsService = (function () {
         this.getEventsCategoriesUrl = constants.WEBSERVICE_URL + "getAllCategories";
         this.getAllStatesUrl = constants.WEBSERVICE_URL + "getAllStates";
         this.getEventsAtStatesUrl = constants.WEBSERVICE_URL + "getEventsByState";
+        this.getUserFivoriteUrl = constants.WEBSERVICE_URL + "getUserFavorites";
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.options = new http_1.RequestOptions({ headers: this.headers });
         this.categoryMenu = [];
     }
     EventsService.prototype.getCategories = function () {
+        console.log("Get categories");
         return this.http.get(this.getEventsCategoriesUrl)
             .toPromise()
             .then(this.convertToCategories)
@@ -55,6 +57,14 @@ var EventsService = (function () {
             .then(this.convertToEvents)
             .catch(this.handleError);
     };
+    EventsService.prototype.getUserFavorite = function (email) {
+        return this.http.post(this.getUserFivoriteUrl, JSON.stringify({
+            username: email
+        }), this.options)
+            .toPromise()
+            .then(this.convertToEvents)
+            .catch(this.handleError);
+    };
     EventsService.prototype.getStates = function () {
         return this.http.get(this.getAllStatesUrl)
             .toPromise()
@@ -73,6 +83,7 @@ var EventsService = (function () {
             .catch(this.handleError);
     };
     EventsService.prototype.convertToCategories = function (res) {
+        console.log("convert to categories");
         var body = res.json();
         var categories = [];
         for (var _i = 0, body_1 = body; _i < body_1.length; _i++) {

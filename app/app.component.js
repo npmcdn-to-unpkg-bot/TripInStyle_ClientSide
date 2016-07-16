@@ -16,6 +16,8 @@ var events_component_1 = require("./events.component");
 var state_search_component_1 = require("./state-search.component");
 var state_component_1 = require("./state.component");
 var login_component_1 = require("./login.component");
+var login_service_1 = require("./login.service");
+var favorites_component_1 = require("./favorites.component");
 var AppComponent = (function () {
     function AppComponent() {
     }
@@ -27,6 +29,7 @@ var AppComponent = (function () {
                 router_deprecated_1.ROUTER_DIRECTIVES
             ],
             providers: [
+                login_service_1.LoginService,
                 events_service_1.EventsService
             ]
         }),
@@ -35,7 +38,6 @@ var AppComponent = (function () {
                 path: '/categories',
                 name: 'Categories',
                 component: category_component_1.CategoryComponent,
-                useAsDefault: true
             },
             {
                 path: '/events',
@@ -55,7 +57,13 @@ var AppComponent = (function () {
             {
                 path: '/login',
                 name: 'Login',
-                component: login_component_1.LoginComponent
+                component: login_component_1.LoginComponent,
+                useAsDefault: true
+            },
+            {
+                path: '/favorites',
+                name: 'Favorites',
+                component: favorites_component_1.FavoriteComponent
             }
         ]), 
         __metadata('design:paramtypes', [])

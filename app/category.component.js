@@ -11,16 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var router_deprecated_1 = require('@angular/router-deprecated');
 var events_service_1 = require("./events.service");
+var login_service_1 = require("./login.service");
 var constants = require('./constants');
 var CategoryComponent = (function () {
-    function CategoryComponent(eventsService, router) {
-        var _this = this;
+    function CategoryComponent(eventsService, router, loginService) {
         this.eventsService = eventsService;
         this.router = router;
+        this.loginService = loginService;
         this.categoriesMenu = [];
         this.choosenCategories = 0;
-        this.eventsService.getCategories()
-            .then(function (categories) { return _this.categoriesMenu = categories; });
     }
     CategoryComponent.prototype.addAtMyCategory = function (selectedCategory) {
         var category = this.categoriesMenu.find(function (cat) { return selectedCategory == cat; });
@@ -42,13 +41,26 @@ var CategoryComponent = (function () {
             console.log(events);
         });
     };
+    CategoryComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        if ("undefined" === typeof this.loginService.userLoggedIn)
+            this.router.navigate(['Login']);
+        else {
+            this.eventsService.getCategories()
+                .then(function (categories) {
+                console.log("Got categories:");
+                console.log(categories);
+                _this.categoriesMenu = categories;
+            });
+        }
+    };
     CategoryComponent = __decorate([
         core_1.Component({
             selector: 'app-categories',
             templateUrl: 'html/categories.html',
             styleUrls: ['css/category.component.css']
         }), 
-        __metadata('design:paramtypes', [events_service_1.EventsService, router_deprecated_1.Router])
+        __metadata('design:paramtypes', [events_service_1.EventsService, router_deprecated_1.Router, login_service_1.LoginService])
     ], CategoryComponent);
     return CategoryComponent;
 }());

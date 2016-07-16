@@ -13,6 +13,7 @@ export class EventsService {
     private getEventsCategoriesUrl: string = constants.WEBSERVICE_URL + "getAllCategories";
     private getAllStatesUrl: string = constants.WEBSERVICE_URL + "getAllStates";
     private getEventsAtStatesUrl: string = constants.WEBSERVICE_URL + "getEventsByState";
+    private getUserFivoriteUrl: string = constants.WEBSERVICE_URL + "getUserFavorites";
     private headers = new Headers({ 'Content-Type': 'application/json'});
     private options = new RequestOptions({ headers: this.headers});
     categoryMenu: Category[] = [];
@@ -20,6 +21,7 @@ export class EventsService {
     constructor(private http: Http) {}
 
     getCategories() :Promise<Category[]> {
+        console.log("Get categories");
         return this.http.get(this.getEventsCategoriesUrl)
             .toPromise()
             .then(this.convertToCategories)
@@ -49,6 +51,16 @@ export class EventsService {
             .then(this.convertToEvents)
             .catch(this.handleError);
     }
+
+    getUserFavorite(email: string) : Promise<Event[]> {
+        return this.http.post(this.getUserFivoriteUrl,
+            JSON.stringify({
+                username: email
+            }),this.options)
+            .toPromise()
+            .then(this.convertToEvents)
+            .catch(this.handleError);
+    }
     
     getStates() :Promise<State[]> {
         return this.http.get(this.getAllStatesUrl)
@@ -72,6 +84,7 @@ export class EventsService {
     }
 
     private convertToCategories(res) {
+        console.log("convert to categories");
         let body = res.json();
         let categories: Category[]= [];
         for(let category of body) {
