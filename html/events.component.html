@@ -1,0 +1,79 @@
+<template [ngIf]="!eventDetails">
+    <div class="container">
+        <nav class="title">
+            TRIP IN STYLE
+            <span id="filter" (click)="changeFilterMenuState()" [class.selected]="filterMenu"></span>
+            <span id="profilPic"></span>
+            <span id="search"></span>
+            <template [ngIf]="filterMenu">
+                <ul class="filter">
+                    <li><img src="./icons/calendar.svg">Calendar</li>
+                    <li  (click)="addStateFilter()"><img src="./icons/globe.svg">Places</li>
+                    <ul class="topics">
+                        <span>TOPICS</span>
+                        <li *ngFor="let category of userCategoriesMenu" (click)="changeCategories(category)">
+                            {{category.title}}
+                        <span class="switch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" [(ngModel)]="category.selected">
+                            <label class="onoffswitch-label">
+                            </label>
+                        </span>
+                        </li>
+                    </ul>
+                </ul>
+            </template>
+        </nav>
+        <template [ngIf]="isInitialized && (events.length==0) && (selectedCategories.length>0)">
+            <span class="notFound">No events for chosen categories:</span>
+            <span class="notFound" *ngFor="let category of selectedCategories">{{category.title}}</span>
+        </template>
+        <template [ngIf]="selectedCategories.length==0">
+            <span class="notFound">No category was selected</span>
+        </template>
+        <ul class="eventsList" [class.menuOpen]="filterMenu">
+            <li *ngFor="let event of events.slice(0,limit)" (click)="seeEventDetails(event)">
+                <img src="{{event.image}}">
+                <span class="gradient"></span>
+                <span id="title">{{event.title}}</span>
+                <span id="summary">{{event.city}} | {{event.startDate}}</span>
+                <span id="price">{{event.price}}$<span>per<br>person</span></span>
+                <span class="isFavorite" [class.colorHeart]="event.isFavorite" (click)="someFunc(event)"></span>
+            </li>
+            <template [ngIf]="(limit<events.length)">
+                <button id="moreBtn" (click)="seeMore()">LOAD MORE</button>
+            </template>
+        </ul>
+        <template [ngIf]="!filterMenu">
+            <nav class="mainMenuNav">
+                <ul>
+                    <li id="home" class="selected"></li>
+                    <li id="favorite"></li>
+                    <li id="ticket"></li>
+                    <li id="profil"></li>
+                </ul>
+            </nav>
+        </template>
+    </div>
+</template>
+<template [ngIf]="eventDetails">
+    <section class="eventPicture">
+        <img src="{{chosenEvent.image}}">
+        <span id="eventTitleDetail">{{chosenEvent.title}}</span>
+        <span id="back" (click)="goBack()"></span>
+        <span class="isFavorite" [class.colorHeart]="chosenEvent.isFavorite" (click)="someFunc(chosenEvent)"></span>
+    </section>
+    <div class="eventDetails">
+        <section class="eventDescription">
+            {{chosenEvent.description}}
+        </section>
+        <section>
+            <ul class="eventTicket">
+                <li><span id="icon-place"></span><section>{{chosenEvent.city}}, {{chosenEvent.place}}</section></li>
+                <li><span id="icon-calendar"></span><section>{{chosenEvent.startDate}}</section></li>
+                <li><span id="icon-clock"></span><section>{{chosenEvent.startTime}} - {{chosenEvent.endTime}}</section></li>
+                <li><span id="icon-money"></span><section>{{chosenEvent.price}}$</section></li>
+            </ul>
+            <button id="buyTickets">Buy Tickets</button>
+        </section>
+    </div>
+</template>

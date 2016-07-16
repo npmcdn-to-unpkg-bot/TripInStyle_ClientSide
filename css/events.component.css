@@ -1,0 +1,374 @@
+* {
+    color: #fff;
+}
+
+.notFound {
+    color: #fff;
+    width: 400px;
+    font-size: 30px;
+    margin-top: 200px;
+    text-align: center;
+    display: block;
+    line-height: 50px;
+}
+
+.notFoundCategory {
+    color: #fff;
+    width: 400px;
+    font-size: 30px;
+    text-align: center;
+    display: block;
+    line-height: 50px;
+}
+
+.eventsList {
+    margin-bottom: 38px;
+}
+
+.eventsList li {
+    position: relative;
+    height: 200px;
+    max-width: 400px;
+    text-align: left;
+    padding-left: 10px;
+    vertical-align: bottom;
+}
+
+#title {
+    display: block;
+    font-size: 20px;
+    line-height: 30px;
+    position: absolute;
+    bottom: 35px;
+}
+
+#price {
+    position: absolute;
+    display: block;
+    right: 0;
+    padding: 3px 7px;
+    background: #000;
+    color: #1f9ac4;
+    bottom: 30px;
+    font-size: 22px;
+}
+
+#price > span{
+    background: #000;
+    color: #1f9ac4;
+    font-size: 9px;
+    max-width: 20px;
+    margin: 0 10px 0 3px;
+    display: inline-block;
+}
+
+.isFavorite {
+    display: block;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    background: url("./icons/favorite.svg") no-repeat;
+    background-size: 80%;
+}
+
+.colorHeart {
+    background: url("./icons/my-favorite.svg") no-repeat;
+    background-size: 80%;
+}
+
+#summary {
+    position: absolute;
+    bottom: 20px;
+    font-size: 14px;
+}
+
+
+.filter {
+    list-style: none;
+    background: rgba(47,46,46,0.95);
+    width: 300px;
+    text-align: left;
+    margin-left: 5px;
+    position: absolute;
+    z-index: 5;
+    border-radius: 6px;
+}
+
+.filter > li {
+    position: relative;
+    padding-left: 65px;
+    line-height: 60px;
+    font-weight: normal;
+}
+
+.filter > li > img {
+    position: absolute;
+    width: 25px;
+    left: 20px;
+    top: 17px;
+
+}
+
+ul.topics {
+    padding-left: 20px;
+}
+
+.topics>span {
+    background: #4ea2c1;
+    display: block;
+    line-height: 20px;
+    font-size: 14px;
+    padding: 3px;
+    padding-left: 20px;
+    margin: 10px 0 10px -20px;
+}
+
+.topics > li {
+    list-style: none;
+    width: 280px;
+    line-height: 50px;
+    font-weight: normal;
+    position: relative;
+}
+
+.topics > li > label{
+    display: inline-block;
+}
+
+.menuOpen {
+    z-index: 3;
+    background: rgba(0,0,0,0.85);
+}
+
+.eventsList > li > img {
+    z-index: -1;
+    margin-left: -10px;
+    margin-top: -7px;
+    position: relative;
+}
+
+.gradient {
+    display: block;
+    width: 400px;
+    height: 200px;
+    margin-left: -10px;
+    margin-top: -204px;
+    z-index: 1;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7d7e7d+0,0e0e0e+100&0+51,1+100 */
+    background: -moz-linear-gradient(top,  rgba(125,126,125,0) 0%, rgba(68,69,68,0) 51%, rgba(14,14,14,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(125,126,125,0) 0%,rgba(68,69,68,0) 51%,rgba(14,14,14,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(125,126,125,0) 0%,rgba(68,69,68,0) 51%,rgba(14,14,14,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007d7e7d', endColorstr='#0e0e0e',GradientType=0 ); /* IE6-9 */
+}
+
+.onoffswitch {
+    position: relative;
+    width: 40px;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    width:35px;
+    height: 20px;
+    padding: 0;
+    line-height: 20px;
+    border: 1px solid #CCCCCC;
+    border-radius: 30px;
+    transition: background-color 0.3s ease-in;
+    position: relative;
+}
+.onoffswitch-label:before {
+    content: "";
+    display: block;
+    width: 20px;
+    margin: 0px;
+    background: #FFFFFF;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-radius: 30px;
+    transition: all 0.3s ease-in 0s;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label {
+    background-color: #1f9ac4;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {
+    border-color: #1f9ac4;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label:before {
+    right: 0;
+}
+
+.switch {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+}
+
+#moreBtn {
+    display: block;
+    width: 400px;
+    border: none;
+    background: #fff;
+    color: #1f9ac4;
+    margin-bottom: 45px;
+    margin-top: -5px;
+    line-height: 40px;
+    font-size: 20px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.eventDetails {
+    position: relative;
+    background: #2F2F2E;
+    padding: 15px;
+}
+
+.eventPicture {
+    display: block;
+    position: relative;
+}
+
+.container {
+    visibility: visible;
+    height: auto;
+}
+
+.hideContainer {
+    visibility: hidden;
+    height: 0;
+}
+
+#eventTitleDetail {
+    background: rgba(0,0,0,0.9);
+    width: 100%;
+    color: #1f9ac4;
+    position: absolute;
+    bottom: 0;
+    line-height: 1.5em;
+    font-size: 1.4em;
+    font-weight: bold;
+    padding: 2px 20px;
+}
+
+#back {
+    position: absolute;
+    left: 10px;
+    top: 0;
+    width: 35px;
+    height: 35px;
+    display: block;
+    background: url("./icons/back.svg") no-repeat;
+    background-size: 70%;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.eventDescription {
+    display: block;
+    color: #fff;
+    font-style: italic;
+    padding-bottom: 1.4em;
+    border-bottom: #4E4F4F 1px solid;
+    line-height: 1.8em;
+}
+
+.eventTicket {
+    padding-top: 15px;
+}
+
+.eventTicket > span {
+    display: block;
+    line-height: 2.5em;
+    color: #fff;
+}
+
+#buyTickets {
+    padding: 8px;
+    border: 1px solid #1f9ac4;
+    color: #1f9ac4;
+    background: rgba(0,0,0,0);
+    position: relative;
+    margin: 1em auto;
+    font-size: 1.3em;
+    display: block;
+}
+
+.eventTicket > li > *{
+    display: inline-block;
+}
+
+.eventTicket > li > section {
+    vertical-align: sub;
+}
+
+.eventTicket > li {
+    vertical-align: middle;
+    line-height: 2.3em;
+}
+
+.eventTicket {
+    list-style: none;
+}
+
+#icon-*::before {
+    content: " ";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 15px;
+}
+
+#icon-place::before {
+    content: " ";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 15px;
+    background: url('./icons/place.svg') no-repeat;
+    background-size: 100%;
+    vertical-align: middle;
+}
+
+#icon-calendar::before {
+    content: " ";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 15px;
+    background: url('./icons/calendar.svg') no-repeat;
+    background-size: 100%;
+    vertical-align: middle;
+}
+
+#icon-money::before {
+    content: " ";
+    display: inline-block;
+    width: 25px;
+    height: 20px;
+    margin-right: 10px;
+    background: url('./icons/money.svg') no-repeat;
+    background-size: 100%;
+    vertical-align: middle;
+    background-position-y: 100%;
+}
+
+#icon-clock::before {
+    content: " ";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 15px;
+    background: url('./icons/clock.svg') no-repeat;
+    background-size: 100%;
+    background-position-y: 10%;
+    vertical-align: middle;
+}

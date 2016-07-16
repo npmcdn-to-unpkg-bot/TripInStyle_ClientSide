@@ -1,0 +1,37 @@
+<html>
+<head>
+    <!--
+    <base href="/2015-2016/ws1/dev_188/">
+    -->
+    <base href="/">
+
+    <title>Trip In Style</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=400, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="./css/styles.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id"
+          content="834678417710-s1sndvagl8422m4mreea76dg01vtp249.apps.googleusercontent.com">
+    <!-- 1. Load libraries -->
+    <!-- Polyfill(s) for older browsers -->
+    <script src="./js/core-js/client/shim.min.js"></script>
+    <script src="./js/zone-js/dist/zone.js"></script>
+    <script src="./js/reflect-metadata/Reflect.js"></script>
+    <script src="./js/systemjs/dist/system.src.js"></script>
+    <!-- 2. Configure SystemJS -->
+    <script src="./systemjs.config.js"></script>
+    <script>
+        System.import('app').catch(function (err) {
+            console.error(err);
+        });
+    </script>
+</head>
+<!-- 3. Display the application -->
+<body>
+<div id="pagewrapper">
+    <my-app><span style="color: #000">Loading</span></my-app>
+</div>
+</body>
+</html>

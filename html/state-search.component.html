@@ -1,0 +1,19 @@
+<nav class="title">
+   Where You Want To Travel
+    <span id="back" (click)="goBack()"></span>
+    <label>
+        <img src="./icons/search-selected.svg" width="13">
+        <input [(ngModel)]="mySearch" (ngModelChange)="updateList()" placeholder="Find state">
+    </label>
+</nav>
+<span class="stateList" >
+    <ul class="stateListContainer">
+        <li *ngFor="let state of states" (click)="chooseState(state)">
+            <img src="{{state.image}}">
+            <span>
+                {{state.name}}
+            </span>
+        </li>
+    </ul>
+    <div class="clear"></div>
+</span>

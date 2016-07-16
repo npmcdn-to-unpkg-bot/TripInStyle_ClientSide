@@ -1,0 +1,77 @@
+.stateList {
+    display: block;
+    width: 400px;
+    background: rgb(47,46,46);
+}
+
+.stateList > ul {
+    background: rgb(47,46,46);
+    list-style: none;
+    position: relative;
+}
+
+.stateListContainer > li {
+    background: rgb(47,46,46);
+    list-style: none;
+    margin: 10px 6px;
+    float: left;
+    width: 120px;
+    display: block;
+}
+
+.stateListContainer > li > img {
+    margin-left: 5px;
+}
+
+.stateListContainer > li > span  {
+    display: inline-block;
+    text-align: center;
+    width: 120px;
+    color: #fff;
+}
+
+#back {
+    position: absolute;
+    left: 10px;
+    top: 0;
+    width: 35px;
+    height: 35px;
+    display: block;
+    background: url("./icons/back.svg") no-repeat;
+    background-size: 70%;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+input {
+    display: block;
+    border: none;
+    border-radius: 10px;
+    background: rgb(47,46,46);
+    margin: -5px 25px 10px 25px;
+    width: 350px;
+    padding: 0 20px;
+    color: #fff;
+    padding-left:30px;
+}
+
+label {
+    position: relative;
+    width: 400px;
+    display: block;
+}
+
+label > img {
+    position: absolute;
+    top: 3px;
+    left: 35px;
+}
+
+input:focus::-webkit-input-placeholder { color:transparent; }
+input:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
+input:focus::-moz-placeholder { color:transparent; } /* FF 19+ */
+input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
+
+input:focus {
+    outline: none;
+}
