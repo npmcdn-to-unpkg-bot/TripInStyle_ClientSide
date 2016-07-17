@@ -30,5 +30,5 @@ button#googleplus {
     border-color: #111;
     background-color: #222;
     text-shadow: #333 -1px -1px 0;
-    background-image:url(http://www.iconsdb.com/icons/preview/white/google-plus-xxl.png);
+    background-image:url('./images/google-plus-xxl.png');
 }

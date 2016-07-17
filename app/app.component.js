@@ -40,6 +40,7 @@ var AppComponent = (function () {
                 path: '/categories',
                 name: 'Categories',
                 component: category_component_1.CategoryComponent,
+                useAsDefault: true
             },
             {
                 path: '/events',
@@ -59,8 +60,7 @@ var AppComponent = (function () {
             {
                 path: '/login',
                 name: 'Login',
-                component: login_component_1.LoginComponent,
-                useAsDefault: true
+                component: login_component_1.LoginComponent
             },
             {
                 path: '/myFavorites',
