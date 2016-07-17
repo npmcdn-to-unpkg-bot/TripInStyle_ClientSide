@@ -77,6 +77,10 @@ var StateComponent = (function () {
         this.eventsService.getEventsAtState(this.stateName, this.selectedCategories)
             .then(function (events) {
             _this.eventsList = events;
+            _this.loginService.userLoggedIn.favorites.forEach(function (eventId) {
+                if (_this.eventsList.findIndex(function (event) { return event._id == eventId; }) > -1)
+                    _this.eventsList.find(function (event) { return event._id == eventId; }).isFavorite = true;
+            });
             _this.isInitialized = true;
         });
     };

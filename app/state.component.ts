@@ -88,12 +88,14 @@ export class StateComponent implements OnInit {
         this.stateName = this.routeParams.get('stateName');
         this.selectedCategories = this.userCategoriesMenu.filter(cat => cat.selected == true);
         this.eventsService.getEventsAtState(this.stateName, this.selectedCategories)
-            .then(
-                events => {
-                    this.eventsList = events;
-                    this.isInitialized = true;
-                }
-            );
+            .then(events => {
+                this.eventsList = events;
+                this.loginService.userLoggedIn.favorites.forEach(eventId => {
+                    if(this.eventsList.findIndex(event => event._id == eventId) > -1)
+                        this.eventsList.find(event => event._id == eventId).isFavorite = true;
+                });
+                this.isInitialized = true;
+            });
     }
     
     ngOnInit() {

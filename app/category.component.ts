@@ -19,12 +19,6 @@ export class CategoryComponent implements OnInit{
     constructor(private eventsService: EventsService,
                 private router: Router,
                 private loginService: LoginService) {
-        this.eventsService.getCategories()
-            .then(categories => {
-                console.log("Got categories:");
-                console.log(categories);
-                this.categoriesMenu = categories
-            });
     }
 
     addAtMyCategory(selectedCategory: Category) {

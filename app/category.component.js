@@ -15,18 +15,11 @@ var login_service_1 = require("./login.service");
 var constants = require('./constants');
 var CategoryComponent = (function () {
     function CategoryComponent(eventsService, router, loginService) {
-        var _this = this;
         this.eventsService = eventsService;
         this.router = router;
         this.loginService = loginService;
         this.categoriesMenu = [];
         this.choosenCategories = 0;
-        this.eventsService.getCategories()
-            .then(function (categories) {
-            console.log("Got categories:");
-            console.log(categories);
-            _this.categoriesMenu = categories;
-        });
     }
     CategoryComponent.prototype.addAtMyCategory = function (selectedCategory) {
         var category = this.categoriesMenu.find(function (cat) { return selectedCategory == cat; });

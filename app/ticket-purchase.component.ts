@@ -42,6 +42,11 @@ export class PurchaseTicketsComponent implements OnInit {
                 });
     }
 
+    goBack() {
+        this.loginService.changeMenu("");
+        window.history.back();
+    }
+
     formCompleted()
     {
         //TODO - HANDLE ERROR RESPONSE - SHOW MESSAGE TO USER

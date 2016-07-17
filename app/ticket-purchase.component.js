@@ -35,6 +35,10 @@ var PurchaseTicketsComponent = (function () {
             _this.isInitialized = true;
         });
     };
+    PurchaseTicketsComponent.prototype.goBack = function () {
+        this.loginService.changeMenu("");
+        window.history.back();
+    };
     PurchaseTicketsComponent.prototype.formCompleted = function () {
         var _this = this;
         //TODO - HANDLE ERROR RESPONSE - SHOW MESSAGE TO USER

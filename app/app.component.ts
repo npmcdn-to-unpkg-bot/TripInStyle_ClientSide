@@ -29,8 +29,8 @@ import {PurchaseTicketsComponent} from "./ticket-purchase.component";
     {
         path: '/categories',
         name: 'Categories',
-        component: CategoryComponent,
-        useAsDefault: true
+        component: CategoryComponent
+        
     },
     {
         path: '/events',
@@ -50,7 +50,8 @@ import {PurchaseTicketsComponent} from "./ticket-purchase.component";
     {
         path: '/login',
         name: 'Login',
-        component: LoginComponent
+        component: LoginComponent,
+        useAsDefault: true
     },
     {
         path: '/myFavorites',

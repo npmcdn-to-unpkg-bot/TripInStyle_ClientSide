@@ -12,27 +12,38 @@ var core_1 = require("@angular/core");
 var login_service_1 = require("./login.service");
 var user_1 = require("./user");
 var router_deprecated_1 = require('@angular/router-deprecated');
+var please = require('../js/mysectry.js');
 var gapi2 = require('js/onloadlogin.js');
 var loginApi = require("../js/mytry.js");
 var LoginComponent = (function () {
-    function LoginComponent(loginService, router, zone) {
+    function LoginComponent(loginService, router) {
         this.loginService = loginService;
         this.router = router;
-        this.zone = zone;
-        this.googleLoginButtonId = "google-login-button";
-        this.userAuthToken = null;
-        this.userDisplayName = "empty";
     }
     LoginComponent.prototype.seeProfile = function () {
         console.log(this.profile);
     };
     LoginComponent.prototype.signInBtn = function () {
-        //        this.zone.runGuarded(loginApi(this.loginRespone, this));
-        console.log(this.zone);
-        loginApi(this.loginRespone.bind(this));
+        var _this = this;
+        please.updateSignIn();
+        gapi.client.plus.people.get({
+            'userId': 'me'
+        }).then(function (res) { return _this.result = res.result; });
+        /*
+        console.log(this.profile);
+        gapi.client.plus.people.get({
+            'userId': 'me'
+        }).then(res => this.profile = res);
+
+
+
+
+
+        //console.log(please.myProfile);
+        //loginApi(this.loginResponse.bind(this));
         //this.zone.on
         //this.zone.runOutsideAngular(loginApi(this.loginRespone, this));
-        //        loginApi(this.loginRespone, this);
+//        loginApi(this.loginRespone, this);
         /*
         this.loginService.loginUser("laurachiche1008@gmail.com","")
             .subscribe(
@@ -67,9 +78,14 @@ var LoginComponent = (function () {
             });
         });*/
     };
-    LoginComponent.prototype.loginRespone = function (res) {
-        console.log(res);
-        this.getUser(res.emails[0].value, res.image.url);
+    LoginComponent.prototype.loginResponse = function (res) {
+        this.result = res;
+        //this.getUser(res.emails[0].value,res.image.url);
+    };
+    LoginComponent.prototype.temp = function () {
+        console.log(this.result);
+        //this.getUser(this.result.emails[0].value,this.result.image.url);
+        this.getUser(this.result.id, this.result.image.url);
     };
     LoginComponent.prototype.getUser = function (email, imageUrl) {
         var _this = this;
@@ -77,20 +93,18 @@ var LoginComponent = (function () {
             console.log("Got res:");
             console.log(res);
             _this.loginService.userLoggedIn = new user_1.User(res.username, res.avatar, res.favorites);
-            _this.router.navigate(['Categories']);
-            //this.navigateToCategories(this));
+            _this.router.navigate(['Categories']).catch(function (err) { return console.error(err); });
         });
     };
-    LoginComponent.prototype.navigateToCategories = function (instance) {
-        instance.router.navigateByUrl('categories');
+    LoginComponent.prototype.ngOnInit = function () {
     };
     LoginComponent = __decorate([
         core_1.Component({
-            selector: "sous-app",
+            selector: "login",
             templateUrl: 'html/login.component.html',
             styleUrls: ['css/login.component.css']
         }), 
-        __metadata('design:paramtypes', [login_service_1.LoginService, router_deprecated_1.Router, core_1.NgZone])
+        __metadata('design:paramtypes', [login_service_1.LoginService, router_deprecated_1.Router])
     ], LoginComponent);
     return LoginComponent;
 }());

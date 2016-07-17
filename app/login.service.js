@@ -47,17 +47,20 @@ var LoginService = (function () {
         return Observable_1.Observable.throw(errMsg);
     };
     LoginService.prototype.changeFavorite = function (eventId) {
+        var _this = this;
         return this.http.post(this.updateFavoritesUrl, JSON.stringify({
             "username": this.userLoggedIn.email,
             "event_id": eventId
         }), this.options)
-            .map(this.favoriteResponse)
+            .map(function (res) { return _this.favoriteResponse(res, eventId); })
             .catch(this.loginError);
     };
-    LoginService.prototype.favoriteResponse = function (res) {
+    LoginService.prototype.favoriteResponse = function (res, eventId) {
         var body = res.json();
-        if ("undefined" !== body.status)
+        if ("undefined" !== body.status) {
+            this.userLoggedIn.changeFavorite(eventId);
             return true;
+        }
         else
             return false;
         //console.log(res);

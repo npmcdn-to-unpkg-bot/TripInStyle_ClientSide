@@ -50,14 +50,16 @@ export class LoginService {
             "username" : this.userLoggedIn.email,
             "event_id": eventId
         }), this.options)
-            .map(this.favoriteResponse)
+            .map(res => this.favoriteResponse(res,eventId))
             .catch(this.loginError);
     }
 
-    private favoriteResponse(res: Response) {
+    private favoriteResponse(res: Response,eventId: string) {
         let body = res.json();
-        if("undefined" !== body.status)
+        if("undefined" !== body.status) {
+            this.userLoggedIn.changeFavorite(eventId);
             return true;
+        }
         else
             return false;
         //console.log(res);

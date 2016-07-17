@@ -33,7 +33,7 @@
         <img src="{{chosenEvent.image}}">
         <span id="eventTitleDetail">{{chosenEvent.title}}</span>
         <span id="back" (click)="goBack()"></span>
-        <span class="isFavorite" [class.colorHeart]="chosenEvent.isFavorite" (click)="someFunc(chosenEvent)"></span>
+        <span class="isFavorite" [class.colorHeart]="chosenEvent.isFavorite" (click)="changeFavoriteStatus(chosenEvent)"></span>
     </section>
     <div class="eventDetails">
         <section class="eventDescription">

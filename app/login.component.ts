@@ -1,34 +1,52 @@
-import {Component, OnDestroy, NgZone} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {LoginService} from "./login.service";
 import {User} from "./user";
 import { Router } from '@angular/router-deprecated';
+import { Subscription } from 'rxjs/Subscription';
+import {CategoryComponent} from "./category.component";
 
+
+var please = require('../js/mysectry.js');
 var gapi2 = require('js/onloadlogin.js');
 var loginApi = require("../js/mytry.js");
+declare var gapi;
 
 @Component({
-    selector: "sous-app",
+    selector: "login",
     templateUrl: 'html/login.component.html',
     styleUrls: ['css/login.component.css']
 })
-export class LoginComponent {
-    googleLoginButtonId = "google-login-button";
-    userAuthToken = null;
-    userDisplayName = "empty";
+export class LoginComponent implements OnInit{
     profile: any;
+    private result: any;
 
 
     constructor(private loginService: LoginService,
-                private router: Router, private zone: NgZone) {}
+                private router: Router) {
+    }
+
 
     seeProfile() {
         console.log(this.profile);
     }
 
     signInBtn() {
-//        this.zone.runGuarded(loginApi(this.loginRespone, this));
-        console.log(this.zone);
-        loginApi(this.loginRespone.bind(this));
+        please.updateSignIn();
+        gapi.client.plus.people.get({
+            'userId': 'me'
+        }).then(res => this.result = res.result);
+        /*
+        console.log(this.profile);
+        gapi.client.plus.people.get({
+            'userId': 'me'
+        }).then(res => this.profile = res);
+
+
+
+
+
+        //console.log(please.myProfile);
+        //loginApi(this.loginResponse.bind(this));
         //this.zone.on
         //this.zone.runOutsideAngular(loginApi(this.loginRespone, this));
 //        loginApi(this.loginRespone, this);
@@ -67,9 +85,15 @@ export class LoginComponent {
         });*/
     }
 
-    loginRespone(res: any) {
-        console.log(res);
-        this.getUser(res.emails[0].value,res.image.url);
+    loginResponse(res: any) {
+        this.result = res;
+        //this.getUser(res.emails[0].value,res.image.url);
+    }
+    
+    temp() {
+        console.log(this.result);
+        //this.getUser(this.result.emails[0].value,this.result.image.url);
+        this.getUser(this.result.id,this.result.image.url);
     }
 
     private getUser(email: string, imageUrl: string) {
@@ -78,13 +102,11 @@ export class LoginComponent {
                 console.log("Got res:");
                 console.log(res);
                 this.loginService.userLoggedIn = new User(res.username,res.avatar,res.favorites);
-                this.router.navigate(['Categories']);
-                //this.navigateToCategories(this));
+                this.router.navigate(['Categories']).catch(err => console.error(err));
             }
         )
     }
-    
-    private navigateToCategories(instance: any) {
-        instance.router.navigateByUrl('categories');
+
+    ngOnInit() {
     }
 }
