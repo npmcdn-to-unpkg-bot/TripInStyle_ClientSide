@@ -1,0 +1,50 @@
+<template [ngIf]="isInitialized">
+    <nav class="title">
+        Buying Process
+        <span id="back" (click)="goBack()"></span>
+        <span id="profilPic"><img src="{{loginService.userLoggedIn.imageUrl}}"></span>
+    </nav>
+    <div class="purchase-container">
+        <img id="background-img" src="{{selectedEvent.image}}">
+        <h1>{{selectedEvent.title}}</h1>
+        <ul class="ticket-details">
+            <li>
+                <img src="./icons/place.svg" width="20" height="20">
+                <span>{{selectedEvent.city}}, {{selectedEvent.place}}</span>
+            </li>
+            <li>
+                <img src="./icons/calendar.svg" width="20" height="20">
+                <span>{{selectedEvent.startDate}}</span>
+            </li>
+            <li>
+                <img src="./icons/clock.svg" width="20" height="20">
+                <span>{{selectedEvent.startTime}}-{{selectedEvent.endTime}}</span>
+            </li>
+            <li>
+                <img src="./icons/money.svg" width="20" height="20">
+                <span>{{selectedEvent.price}}$ per person</span>
+            </li>
+        </ul>
+        <form class="form-container">
+                <label>First Name:</label>
+                <input type="text" class="form-control" id="firstName">
+                <label>Last Name:</label>
+                <input type="text" class="form-control" id="lastName">
+                <label>Email Address:</label>
+                <input type="email" class="form-control" id="email">
+                <label>Mobile Phone Number:</label>
+                <input type="number" class="form-control" id="mobile">
+                <label>Home Country:</label>
+                <input type="text" class="form-control" id="country">
+                <label>Number of tickets:</label>
+                <input [(ngModel)]="ticketsAmount" name="ticketsAmount" id="ticket-amount">
+            <button type="submit" class="submit-btn" (click)="formCompleted()">NEXT</button>
+        </form>
+    </div>
+    <template [ngIf]="isPurchaseSuccess">
+        <section class="confirmation-msg">
+            <span>Successfully purchase {{ticketsAmount}} tickets</span>
+            <button (click)="goToPurchases()">Ok</button>
+        </section>
+    </template>
+</template>

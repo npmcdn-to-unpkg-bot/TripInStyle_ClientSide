@@ -1,0 +1,45 @@
+* {
+    color: #fff;
+}
+
+.tickets {
+    position: relative;
+    max-height: 200px;
+}
+
+.ticket-content > * {
+    display: block;
+}
+
+.ticket-content {
+    padding: 20px;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    height: 150px;
+    width: 350px;
+    display: block;
+    border: 5px solid #1f9ac4;
+    background: rgba(0,0,0,0.8);
+}
+
+#ticket-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #1f9ac4;
+}
+
+#ticket-place,
+#ticket-date,
+#ticket-time,
+#ticket-seat,
+#ticket-code {
+    line-height: 1.6em;
+}
+
+.tickets-list {
+    margin-bottom: 45px;
+}
+
+
+

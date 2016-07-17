@@ -1,52 +1,84 @@
-<nav class="title">
-    {{stateName}}
-    <span id="filter" (click)="changeFilterMenuState()" [class.selected]="filterMenu"></span>
-    <span id="profilPic"></span>
-    <span id="search"></span>
-    <template [ngIf]="filterMenu">
-        <ul class="filter">
-            <li><img src="./icons/calendar.svg">Calendar</li>
-            <li  (click)="addStateFilter()"><img src="./icons/globe.svg">Places</li>
-            <ul class="topics">
-                <span>TOPICS</span>
-                <li *ngFor="let category of userCategoriesMenu" (click)="changeCategories(category)">
-                    {{category.title}}
+<template [ngIf]="!eventDetails">
+    <div class="container">
+        <nav class="title">
+            {{stateName}}
+            <span id="filter" (click)="changeFilterMenuState()" [class.selected]="filterMenu"></span>
+            <span id="profilPic"><img src="{{loginService.userLoggedIn.imageUrl}}"></span>
+            <span id="search"></span>
+            <template [ngIf]="filterMenu">
+                <ul class="filter">
+                    <li><img src="./icons/calendar.svg">Calendar</li>
+                    <li (click)="addStateFilter()"><img src="./icons/globe.svg">Places</li>
+                    <ul class="topics">
+                        <span>TOPICS</span>
+                        <li *ngFor="let category of userCategoriesMenu" (click)="changeCategories(category)">
+                            {{category.title}}
                     <span class="switch">
-                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" [(ngModel)]="category.selected">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"
+                               [(ngModel)]="category.selected">
                         <label class="onoffswitch-label">
                         </label>
                     </span>
+                        </li>
+                    </ul>
+                </ul>
+            </template>
+        </nav>
+        <template [ngIf]="isInitialized && (eventsList.length==0) && selectedCategories.length>0">
+            <span class="notFound">No events found at {{stateName}} for chosen categories:</span>
+            <span class="notFoundCategory" *ngFor="let category of selectedCategories">{{category.title}}</span>
+        </template>
+        <template [ngIf]="isInitialized && selectedCategories.length==0">
+            <span class="notFound">No category was selected</span>
+        </template>
+        <ul class="eventsList" [class.menuOpen]="filterMenu">
+            <li *ngFor="let event of eventsList.slice(0,limit)">
+                <span class="gradient" (click)="seeEventDetails(event)"></span>
+                <div (click)="seeEventDetails(event)">
+                    <img src="{{event.image}}">
+                    <span id="title">{{event.title}}</span>
+                    <span id="summary">{{event.city}} | {{event.startDate}}</span>
+                    <span id="price">{{event.price}}$<span>per<br>person</span></span>
+                </div>
+                <span class="isFavorite" [class.colorHeart]="event.isFavorite"
+                      (click)="changeFavoriteStatus(event)"></span>
+            </li>
+            <template [ngIf]="(limit<eventsList.length)">
+                <button id="moreBtn" (click)="seeMore()">LOAD MORE</button>
+            </template>
+        </ul>
+        <template [ngIf]="!filterMenu">
+            <bottom-menu></bottom-menu>
+        </template>
+    </div>
+</template>
+<template [ngIf]="eventDetails">
+    <section class="eventPicture">
+        <img src="{{chosenEvent.image}}">
+        <span id="eventTitleDetail">{{chosenEvent.title}}</span>
+        <span id="back" (click)="goBack()"></span>
+        <span class="isFavorite" [class.colorHeart]="chosenEvent.isFavorite" (click)="changeFavoriteStatus(chosenEvent)"></span>
+    </section>
+    <div class="eventDetails">
+        <section class="eventDescription">
+            {{chosenEvent.description}}
+        </section>
+        <section>
+            <ul class="eventTicket">
+                <li><span id="icon-place"></span>
+                    <section>{{chosenEvent.city}}, {{chosenEvent.place}}</section>
+                </li>
+                <li><span id="icon-calendar"></span>
+                    <section>{{chosenEvent.startDate}}</section>
+                </li>
+                <li><span id="icon-clock"></span>
+                    <section>{{chosenEvent.startTime}} - {{chosenEvent.endTime}}</section>
+                </li>
+                <li><span id="icon-money"></span>
+                    <section>{{chosenEvent.price}}$</section>
                 </li>
             </ul>
-        </ul>
-    </template>
-</nav>
-<template [ngIf]="isInitialized && (eventsList.length==0) && selectedCategories.length>0">
-    <span class="notFound">No events found at {{stateName}} for chosen categories:</span>
-    <span class="notFoundCategory" *ngFor="let category of selectedCategories">{{category.title}}</span>
-</template>
-<template [ngIf]="isInitialized && selectedCategories.length==0">
-    <span class="notFound">No category was selected</span>
-</template>
-<ul class="eventsList" [class.menuOpen]="filterMenu" (click)="exitFilterMenu()">
-    <li *ngFor="let event of eventsList.slice(0,limit)">
-        <img src="{{event.image}}"><span class="gradient"></span>
-        <span id="title">{{event.title}}</span>
-        <span id="summary">{{event.city}} | {{event.startDate}}</span>
-        <span id="price">{{event.price}}$<span>per<br>person</span></span>
-        <span id="isFavorite"></span>
-    </li>
-    <template [ngIf]="(limit<eventsList.length)">
-        <button id="moreBtn" (click)="seeMore()">LOAD MORE</button>
-    </template>
-</ul>
-<template [ngIf]="!filterMenu">
-    <nav class="mainMenuNav">
-        <ul>
-            <li id="home" class="selected" (click)="homeSearch()"></li>
-            <li id="favorite"></li>
-            <li id="ticket"></li>
-            <li id="profil"></li>
-        </ul>
-    </nav>
+            <button id="buyTickets" (click)="purchase(chosenEvent._id)">Buy Tickets</button>
+        </section>
+    </div>
 </template>

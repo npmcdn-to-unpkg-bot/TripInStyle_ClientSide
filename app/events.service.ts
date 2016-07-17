@@ -11,9 +11,11 @@ import {State} from "./state";
 export class EventsService {
     private getEventFromCategoriesUrl: string = constants.WEBSERVICE_URL + "getEventsByCategory";
     private getEventsCategoriesUrl: string = constants.WEBSERVICE_URL + "getAllCategories";
+    private getEventByIDUrl: string = constants.WEBSERVICE_URL + "getEventByID";
     private getAllStatesUrl: string = constants.WEBSERVICE_URL + "getAllStates";
     private getEventsAtStatesUrl: string = constants.WEBSERVICE_URL + "getEventsByState";
     private getUserFivoriteUrl: string = constants.WEBSERVICE_URL + "getUserFavorites";
+    private addPurchaseUrl: string = constants.WEBSERVICE_URL + "addPurchase";
     private headers = new Headers({ 'Content-Type': 'application/json'});
     private options = new RequestOptions({ headers: this.headers});
     categoryMenu: Category[] = [];
@@ -61,6 +63,16 @@ export class EventsService {
             .then(this.convertToEvents)
             .catch(this.handleError);
     }
+
+    getEventByID(event_id:string) : Promise<Event> {
+        return this.http.post(this.getEventByIDUrl,
+            JSON.stringify({
+                event_id: event_id
+            }),this.options)
+            .toPromise()
+            .then(this.convertToEvent)
+            .catch(this.handleError);
+    }
     
     getStates() :Promise<State[]> {
         return this.http.get(this.getAllStatesUrl)
@@ -82,7 +94,28 @@ export class EventsService {
             .catch(this.handleError);
 
     }
+    addPurchase(username:string,event_id:string,tickets_amount:number ) :Promise<boolean> {
+        return this.http.post(this.addPurchaseUrl,
+            JSON.stringify({
+                username: username,
+                event_id: event_id,
+                tickets_amount:tickets_amount
+            }), this.options)
+            .toPromise()
+            .then(this.purchaseConfirmation)
+            .catch(this.handleError);
 
+    }
+
+    private convertToEvent(res)
+    {
+        let event = res.json();
+        console.log("Convert to Event: "+event);
+        return new Event(event._id, event.title, event.description,
+            event.state, event.city, event.place, event.startDate,
+            event.endDate, event.startTime, event.endTime, event.price,
+            event.coin, event.image, event.tickets);
+    }
     private convertToCategories(res) {
         console.log("convert to categories");
         let body = res.json();
@@ -113,6 +146,22 @@ export class EventsService {
         }
         return states;
     }
+
+    private purchaseConfirmation(res:any)
+    {
+        let body = res.json();
+        if("undefined" === typeof body.status)
+        {
+            console.log(body.error);
+            return false;
+        }
+        else
+        {
+            console.log(body.status);
+            return true;
+        }
+    }
+
 
     private handleError(error: any) {
         console.error('An error occurred', error);

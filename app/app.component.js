@@ -18,6 +18,8 @@ var state_component_1 = require("./state.component");
 var login_component_1 = require("./login.component");
 var login_service_1 = require("./login.service");
 var favorites_component_1 = require("./favorites.component");
+var purchase_component_1 = require("./purchase.component");
+var ticket_purchase_component_1 = require("./ticket-purchase.component");
 var AppComponent = (function () {
     function AppComponent() {
     }
@@ -61,9 +63,19 @@ var AppComponent = (function () {
                 useAsDefault: true
             },
             {
-                path: '/favorites',
+                path: '/myFavorites',
                 name: 'Favorites',
                 component: favorites_component_1.FavoriteComponent
+            },
+            {
+                path: '/myPurchases',
+                name: 'Purchases',
+                component: purchase_component_1.PurchaseComponent
+            },
+            {
+                path: '/ticket-purchase/:eventId',
+                name: 'PurchaseTickets',
+                component: ticket_purchase_component_1.PurchaseTicketsComponent
             }
         ]), 
         __metadata('design:paramtypes', [])

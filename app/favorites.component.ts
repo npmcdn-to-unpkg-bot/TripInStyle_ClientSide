@@ -87,8 +87,13 @@ export class FavoriteComponent implements OnInit {
         this.router.navigate(['StateSearch']);
     }
 
+    private purchase(eventId: string) {
+        this.loginService.changeMenu("purchase");
+        this.router.navigateByUrl('ticket-purchase/'+eventId);
+    }
+
     private goBack() {
-        this.loginService.changeMenu("home");
+        this.loginService.changeMenu("");
         window.history.back();
     }
 

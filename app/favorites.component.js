@@ -75,8 +75,12 @@ var FavoriteComponent = (function () {
         this.eventsService.categoryMenu = this.userCategoriesMenu;
         this.router.navigate(['StateSearch']);
     };
+    FavoriteComponent.prototype.purchase = function (eventId) {
+        this.loginService.changeMenu("purchase");
+        this.router.navigateByUrl('ticket-purchase/' + eventId);
+    };
     FavoriteComponent.prototype.goBack = function () {
-        this.loginService.changeMenu("home");
+        this.loginService.changeMenu("");
         window.history.back();
     };
     FavoriteComponent.prototype.seeMore = function () {

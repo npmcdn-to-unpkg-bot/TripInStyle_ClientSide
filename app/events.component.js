@@ -87,6 +87,10 @@ var EventsComponent = (function () {
         this.eventsService.categoryMenu = this.userCategoriesMenu;
         this.router.navigate(['StateSearch']);
     };
+    EventsComponent.prototype.purchase = function (eventId) {
+        this.loginService.changeMenu("purchase");
+        this.router.navigateByUrl('ticket-purchase/' + eventId);
+    };
     EventsComponent.prototype.goBack = function () {
         this.eventDetails = false;
         this.chosenEvent = null;

@@ -101,6 +101,11 @@ export class EventsComponent implements OnInit {
         this.router.navigate(['StateSearch']);
     }
 
+    private purchase(eventId: string) {
+        this.loginService.changeMenu("purchase");
+        this.router.navigateByUrl('ticket-purchase/'+eventId);
+    }
+
     private goBack() {
         this.eventDetails = false;
         this.chosenEvent = null;

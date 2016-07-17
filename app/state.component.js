@@ -11,17 +11,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var router_deprecated_1 = require('@angular/router-deprecated');
 var events_service_1 = require("./events.service");
+var bottommenu_component_1 = require("./bottommenu.component");
+var login_service_1 = require("./login.service");
 var StateComponent = (function () {
-    function StateComponent(eventsService, router, routeParams) {
+    function StateComponent(eventsService, router, routeParams, loginService) {
         this.eventsService = eventsService;
         this.router = router;
         this.routeParams = routeParams;
+        this.loginService = loginService;
         this.isInitialized = false;
         this.eventsList = [];
         this.userCategoriesMenu = [];
         this.selectedCategories = [];
         this.filterMenu = false;
         this.limit = 7;
+        this.eventDetails = false;
     }
     StateComponent.prototype.changeFilterMenuState = function () {
         this.filterMenu = !this.filterMenu;
@@ -35,6 +39,20 @@ var StateComponent = (function () {
             }
         }
     };
+    StateComponent.prototype.changeFavoriteStatus = function (event) {
+        var _this = this;
+        this.loginService.changeFavorite(event._id).
+            subscribe(function (res) {
+            if (res)
+                _this.eventsList.find(function (ev) { return event === ev; }).changeFavorite();
+        });
+        //this.loginService.userLoggedIn.changeFavorite(event._id);
+    };
+    StateComponent.prototype.seeEventDetails = function (event) {
+        this.eventDetails = true;
+        this.chosenEvent = event;
+        scroll(0, 0);
+    };
     StateComponent.prototype.addStateFilter = function () {
         this.eventsService.categoryMenu = this.userCategoriesMenu;
         this.router.navigate(['StateSearch']);
@@ -44,6 +62,9 @@ var StateComponent = (function () {
         if (this.filterMenu) {
             this.changeFilterMenuState();
         }
+    };
+    StateComponent.prototype.goBack = function () {
+        this.eventDetails = false;
     };
     StateComponent.prototype.changeCategories = function (category) {
         var isSelected = this.userCategoriesMenu.find(function (cat) { return cat === category; }).selected;
@@ -85,9 +106,12 @@ var StateComponent = (function () {
         core_1.Component({
             selector: 'state',
             templateUrl: 'html/state.component.html',
-            styleUrls: ['css/events.component.css']
+            styleUrls: ['css/events.component.css'],
+            directives: [
+                bottommenu_component_1.BottomMenuComponent
+            ]
         }), 
-        __metadata('design:paramtypes', [events_service_1.EventsService, router_deprecated_1.Router, router_deprecated_1.RouteParams])
+        __metadata('design:paramtypes', [events_service_1.EventsService, router_deprecated_1.Router, router_deprecated_1.RouteParams, login_service_1.LoginService])
     ], StateComponent);
     return StateComponent;
 }());

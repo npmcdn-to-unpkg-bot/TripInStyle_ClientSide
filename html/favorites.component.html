@@ -4,32 +4,14 @@
             Favorites
             <span id="back" (click)="goBack()"></span>
             <span id="profilPic"><img src="{{loginService.userLoggedIn.imageUrl}}"></span>
-            <span id="search"></span>
-            <template [ngIf]="filterMenu">
-                <ul class="filter">
-                    <li><img src="./icons/calendar.svg">Calendar</li>
-                    <li  (click)="addStateFilter()"><img src="./icons/globe.svg">Places</li>
-                    <ul class="topics">
-                        <span>TOPICS</span>
-                        <li *ngFor="let category of userCategoriesMenu" (click)="changeCategories(category)">
-                            {{category.title}}
-                        <span class="switch">
-                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" [(ngModel)]="category.selected">
-                            <label class="onoffswitch-label">
-                            </label>
-                        </span>
-                        </li>
-                    </ul>
-                </ul>
-            </template>
         </nav>
         <template [ngIf]="isInitialized && (events.length==0)">
             <span class="notFound">No events were added to favorites</span>
         </template>
         <ul class="eventsList" [class.menuOpen]="filterMenu">
             <li *ngFor="let event of events.slice(0,limit)">
-                <span class="gradient"></span>
-                <div >
+                <span class="gradient" (click)="seeEventDetails(event)"></span>
+                <div (click)="seeEventDetails(event)">
                     <img src="{{event.image}}">
                     <span id="title">{{event.title}}</span>
                     <span id="summary">{{event.city}} | {{event.startDate}}</span>
@@ -64,7 +46,7 @@
                 <li><span id="icon-clock"></span><section>{{chosenEvent.startTime}} - {{chosenEvent.endTime}}</section></li>
                 <li><span id="icon-money"></span><section>{{chosenEvent.price}}$</section></li>
             </ul>
-            <button id="buyTickets">Buy Tickets</button>
+            <button id="buyTickets" (click)="purchase(chosenEvent._id)">Buy Tickets</button>
         </section>
     </div>
 </template>

@@ -13,12 +13,14 @@ var Observable_1 = require('rxjs/Observable');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/catch');
+var ticket_1 = require("./ticket");
 var constants = require('./constants');
 var LoginService = (function () {
     function LoginService(http) {
         this.http = http;
         this.loginUrl = constants.WEBSERVICE_URL + "validateUser";
         this.updateFavoritesUrl = constants.WEBSERVICE_URL + "updateUserFavorites";
+        this.getPruchasesUrl = constants.WEBSERVICE_URL + "getUserPurchases";
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.options = new http_1.RequestOptions({ headers: this.headers });
         this.menuSelected = "home";
@@ -61,7 +63,34 @@ var LoginService = (function () {
         //console.log(res);
     };
     LoginService.prototype.changeMenu = function (menuSelected) {
-        this.menuSelected = menuSelected;
+        if (menuSelected === "") {
+            this.menuSelected = this.lastMenuSelected;
+            this.lastMenuSelected = "home";
+        }
+        else {
+            this.lastMenuSelected = this.menuSelected;
+            this.menuSelected = menuSelected;
+        }
+    };
+    LoginService.prototype.getUserPurchases = function (email) {
+        return this.http.post(this.getPruchasesUrl, JSON.stringify({
+            "username": this.userLoggedIn.email
+        }), this.options)
+            .map(this.purchaseResponse)
+            .catch(this.loginError);
+    };
+    LoginService.prototype.purchaseResponse = function (res) {
+        var body = res.json();
+        var tickets = [];
+        console.log(body);
+        for (var _i = 0, _a = body.purchases; _i < _a.length; _i++) {
+            var ticketList = _a[_i];
+            for (var _b = 0, _c = ticketList.tickets; _b < _c.length; _b++) {
+                var ticket = _c[_b];
+                tickets.push(new ticket_1.Ticket(ticket.id, ticketList.title, ticketList.city, ticketList.place, ticketList.startDate, ticketList.endDate, ticketList.startTime, ticketList.endTime, ticketList.image, ticket.seat, ticket.row));
+            }
+        }
+        return tickets;
     };
     LoginService = __decorate([
         core_1.Injectable(), 

@@ -5,14 +5,17 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import { User } from './user';
+import {Ticket} from "./ticket";
 var constants = require('./constants');
 
 @Injectable()
 export class LoginService {
     private loginUrl: string = constants.WEBSERVICE_URL + "validateUser";
     private updateFavoritesUrl: string = constants.WEBSERVICE_URL + "updateUserFavorites";
+    private getPruchasesUrl: string = constants.WEBSERVICE_URL + "getUserPurchases";
     private headers = new Headers({ 'Content-Type': 'application/json'});
     private options = new RequestOptions({ headers: this.headers});
+    lastMenuSelected: string; "home";
     menuSelected: string = "home";
     userLoggedIn: User;
     
@@ -61,7 +64,36 @@ export class LoginService {
     }
     
     changeMenu(menuSelected: string) {
-        this.menuSelected = menuSelected;
+        if(menuSelected === "") {
+            this.menuSelected = this.lastMenuSelected;
+            this.lastMenuSelected = "home";
+        }
+        else {
+            this.lastMenuSelected = this.menuSelected;
+            this.menuSelected = menuSelected;
+        }
+    }
+
+    getUserPurchases(email: string) {
+        return this.http.post(this.getPruchasesUrl, JSON.stringify({
+            "username" : this.userLoggedIn.email
+        }), this.options)
+            .map(this.purchaseResponse)
+            .catch(this.loginError);
+    }
+
+    private purchaseResponse(res: Response) {
+        let body = res.json();
+        let tickets: Ticket[] = [];
+        console.log(body);
+        for(let ticketList of body.purchases) {
+            for(let ticket of ticketList.tickets) {
+                tickets.push(new Ticket(ticket.id, ticketList.title, ticketList.city, ticketList.place,
+                    ticketList.startDate, ticketList.endDate, ticketList.startTime, ticketList.endTime,
+                    ticketList.image, ticket.seat, ticket.row));
+            }
+        }
+        return tickets;
     }
 }
 

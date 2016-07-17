@@ -10,6 +10,8 @@ import {StateComponent} from "./state.component";
 import {LoginComponent} from "./login.component";
 import {LoginService} from "./login.service";
 import {FavoriteComponent} from "./favorites.component";
+import {PurchaseComponent} from "./purchase.component";
+import {PurchaseTicketsComponent} from "./ticket-purchase.component";
 
 @Component({
     selector: 'my-app',
@@ -51,9 +53,19 @@ import {FavoriteComponent} from "./favorites.component";
         useAsDefault: true
     },
     {
-        path: '/favorites',
+        path: '/myFavorites',
         name: 'Favorites',
         component: FavoriteComponent
+    },
+    {
+        path: '/myPurchases',
+        name: 'Purchases',
+        component: PurchaseComponent
+    },
+    {
+        path: '/ticket-purchase/:eventId',
+        name: 'PurchaseTickets',
+        component: PurchaseTicketsComponent
     }
 ])
 

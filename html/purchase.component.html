@@ -1,0 +1,26 @@
+<template [ngIf]="isInitialized">
+    <nav class="title">
+        Tickets
+        <span id="back" (click)="goBack()"></span>
+        <span id="profilPic"><img src="{{loginService.userLoggedIn.imageUrl}}"></span>
+    </nav>
+    <ul class="tickets-list">
+        <li *ngFor="let ticket of tickets" class="tickets">
+            <img src="{{ticket.imageUrl}}">
+            <div class="ticket-content">
+                <span id="ticket-title">{{ticket.title}}</span>
+                <span id="ticket-place">{{ticket.city}}, {{ticket.place}}</span>
+                <span id="ticket-date">{{ticket.startDate}}</span>
+                <span id="ticket-time">{{ticket.startTime}} - {{ticket.endTime}}</span>
+                <span id="ticket-seat">ROW {{ticket.row}}, SEAT {{ticket.seat}}</span>
+                <span id="ticket-code">Code: {{ticket.id}}</span>
+            </div>
+        </li>
+    </ul>
+    <template [ngIf]="tickets.length == 0 ">
+        <p class="notFound">
+            You have no purchase tickets
+        </p>
+    </template>
+    <bottom-menu></bottom-menu>
+</template>

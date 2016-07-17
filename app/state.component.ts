@@ -4,11 +4,16 @@ import {EventsService } from "./events.service";
 import {State} from "./state";
 import {Event} from "./event";
 import {Category} from "./category";
+import {BottomMenuComponent} from "./bottommenu.component";
+import {LoginService} from "./login.service";
 
 @Component({
     selector: 'state',
     templateUrl: 'html/state.component.html',
-    styleUrls: ['css/events.component.css']
+    styleUrls: ['css/events.component.css'],
+    directives: [
+        BottomMenuComponent
+    ]
 })
 
 export class StateComponent implements OnInit {
@@ -19,10 +24,13 @@ export class StateComponent implements OnInit {
     private selectedCategories: Category[] = [];
     private filterMenu: boolean = false;
     private limit: number = 7;
+    private eventDetails:boolean = false;
+    private chosenEvent:Event;
     
     constructor(private eventsService:EventsService,
                 private router: Router,
-                private routeParams: RouteParams ) {}
+                private routeParams: RouteParams,
+                private loginService: LoginService) {}
 
     changeFilterMenuState() {
         this.filterMenu = !this.filterMenu;
@@ -38,6 +46,23 @@ export class StateComponent implements OnInit {
         }
     }
     
+    private changeFavoriteStatus(event:Event) {
+        this.loginService.changeFavorite(event._id).
+        subscribe(
+            res => {
+                if( res )
+                    this.eventsList.find(ev => event === ev).changeFavorite();
+            });
+        //this.loginService.userLoggedIn.changeFavorite(event._id);
+
+    }
+
+    private seeEventDetails(event:any) {
+        this.eventDetails = true;
+        this.chosenEvent = event;
+        scroll(0, 0);
+    }
+    
     addStateFilter() {
         this.eventsService.categoryMenu = this.userCategoriesMenu;
         this.router.navigate(['StateSearch']);
@@ -48,6 +73,10 @@ export class StateComponent implements OnInit {
         if(this.filterMenu) {
             this.changeFilterMenuState();
         }
+    }
+
+    private goBack() {
+        this.eventDetails = false;
     }
 
     changeCategories(category: Category) {

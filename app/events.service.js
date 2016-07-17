@@ -20,9 +20,11 @@ var EventsService = (function () {
         this.http = http;
         this.getEventFromCategoriesUrl = constants.WEBSERVICE_URL + "getEventsByCategory";
         this.getEventsCategoriesUrl = constants.WEBSERVICE_URL + "getAllCategories";
+        this.getEventByIDUrl = constants.WEBSERVICE_URL + "getEventByID";
         this.getAllStatesUrl = constants.WEBSERVICE_URL + "getAllStates";
         this.getEventsAtStatesUrl = constants.WEBSERVICE_URL + "getEventsByState";
         this.getUserFivoriteUrl = constants.WEBSERVICE_URL + "getUserFavorites";
+        this.addPurchaseUrl = constants.WEBSERVICE_URL + "addPurchase";
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.options = new http_1.RequestOptions({ headers: this.headers });
         this.categoryMenu = [];
@@ -65,6 +67,14 @@ var EventsService = (function () {
             .then(this.convertToEvents)
             .catch(this.handleError);
     };
+    EventsService.prototype.getEventByID = function (event_id) {
+        return this.http.post(this.getEventByIDUrl, JSON.stringify({
+            event_id: event_id
+        }), this.options)
+            .toPromise()
+            .then(this.convertToEvent)
+            .catch(this.handleError);
+    };
     EventsService.prototype.getStates = function () {
         return this.http.get(this.getAllStatesUrl)
             .toPromise()
@@ -81,6 +91,21 @@ var EventsService = (function () {
             .toPromise()
             .then(this.convertToEvents)
             .catch(this.handleError);
+    };
+    EventsService.prototype.addPurchase = function (username, event_id, tickets_amount) {
+        return this.http.post(this.addPurchaseUrl, JSON.stringify({
+            username: username,
+            event_id: event_id,
+            tickets_amount: tickets_amount
+        }), this.options)
+            .toPromise()
+            .then(this.purchaseConfirmation)
+            .catch(this.handleError);
+    };
+    EventsService.prototype.convertToEvent = function (res) {
+        var event = res.json();
+        console.log("Convert to Event: " + event);
+        return new event_1.Event(event._id, event.title, event.description, event.state, event.city, event.place, event.startDate, event.endDate, event.startTime, event.endTime, event.price, event.coin, event.image, event.tickets);
     };
     EventsService.prototype.convertToCategories = function (res) {
         console.log("convert to categories");
@@ -109,6 +134,17 @@ var EventsService = (function () {
             states.push(new state_1.State(state.name, state.image));
         }
         return states;
+    };
+    EventsService.prototype.purchaseConfirmation = function (res) {
+        var body = res.json();
+        if ("undefined" === typeof body.status) {
+            console.log(body.error);
+            return false;
+        }
+        else {
+            console.log(body.status);
+            return true;
+        }
     };
     EventsService.prototype.handleError = function (error) {
         console.error('An error occurred', error);
