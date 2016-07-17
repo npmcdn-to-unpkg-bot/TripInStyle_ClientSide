@@ -37,14 +37,16 @@
                 <label>Home Country:</label>
                 <input type="text" class="form-control" id="country">
                 <label>Number of tickets:</label>
-                <input [(ngModel)]="ticketsAmount" name="ticketsAmount" id="ticket-amount">
+                <input [(ngModel)]="ticketsAmount" type="number" name="ticketsAmount" id="ticket-amount">
             <button type="submit" class="submit-btn" (click)="formCompleted()">NEXT</button>
         </form>
+
+        <template [ngIf]="responsePopup">
+            <section class="confirmation-msg">
+                <span>{{msg}}</span>
+                <button (click)="goToPurchases()">Ok</button>
+            </section>
+        </template>
     </div>
-    <template [ngIf]="isPurchaseSuccess">
-        <section class="confirmation-msg">
-            <span>Successfully purchase {{ticketsAmount}} tickets</span>
-            <button (click)="goToPurchases()">Ok</button>
-        </section>
-    </template>
+
 </template>

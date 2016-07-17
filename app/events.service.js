@@ -139,11 +139,16 @@ var EventsService = (function () {
         var body = res.json();
         if ("undefined" === typeof body.status) {
             console.log(body.error);
-            return false;
+            return {
+                succeed: false,
+                msg: body.error
+            };
         }
         else {
-            console.log(body.status);
-            return true;
+            return {
+                succeed: true,
+                msg: "You're tickets were added to your purchases"
+            };
         }
     };
     EventsService.prototype.handleError = function (error) {

@@ -94,7 +94,7 @@ export class EventsService {
             .catch(this.handleError);
 
     }
-    addPurchase(username:string,event_id:string,tickets_amount:number ) :Promise<boolean> {
+    addPurchase(username:string,event_id:string,tickets_amount:number ) :Promise<any> {
         return this.http.post(this.addPurchaseUrl,
             JSON.stringify({
                 username: username,
@@ -153,12 +153,17 @@ export class EventsService {
         if("undefined" === typeof body.status)
         {
             console.log(body.error);
-            return false;
+            return {
+                succeed: false,
+                msg: body.error
+            };
         }
         else
         {
-            console.log(body.status);
-            return true;
+            return {
+                succeed: true,
+                msg: "You're tickets were added to your purchases"
+            }
         }
     }
 

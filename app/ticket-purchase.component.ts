@@ -20,6 +20,8 @@ export class PurchaseTicketsComponent implements OnInit {
     private isInitialized : boolean;
     private ticketsAmount : number;
     private isPurchaseSuccess: boolean = false;
+    private responsePopup: boolean = false;
+    private msg: string;
     
     constructor(private eventsService: EventsService,
                 private router: Router,
@@ -28,9 +30,12 @@ export class PurchaseTicketsComponent implements OnInit {
     }
 
     private goToPurchases() {
-        this.loginService.lastMenuSelected="home";
-        this.loginService.menuSelected="ticket";
-        this.router.navigate(['Purchases']);
+        if(this.isPurchaseSuccess) {
+            this.loginService.lastMenuSelected = "home";
+            this.loginService.menuSelected = "ticket";
+            this.router.navigate(['Purchases']);
+        }
+        this.responsePopup = false;
     }
 
     ngOnInit() {
@@ -49,19 +54,15 @@ export class PurchaseTicketsComponent implements OnInit {
 
     formCompleted()
     {
-        //TODO - HANDLE ERROR RESPONSE - SHOW MESSAGE TO USER
         console.log("Total tickets: "+this.ticketsAmount);
         this.eventsService.addPurchase(this.loginService.userLoggedIn.email,this.params.get('eventId'),this.ticketsAmount)
             .then(result => {
-                if(result)
+                this.responsePopup = true;
+                if(result.succeed)
                 {
-                    console.log("Success");
                     this.isPurchaseSuccess = true;
                 }
-                else
-                {
-                    console.log("Error");
-                }
+                this.msg = result.msg;
             });
     }
 

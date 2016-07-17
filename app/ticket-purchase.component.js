@@ -20,11 +20,15 @@ var PurchaseTicketsComponent = (function () {
         this.loginService = loginService;
         this.params = params;
         this.isPurchaseSuccess = false;
+        this.responsePopup = false;
     }
     PurchaseTicketsComponent.prototype.goToPurchases = function () {
-        this.loginService.lastMenuSelected = "home";
-        this.loginService.menuSelected = "ticket";
-        this.router.navigate(['Purchases']);
+        if (this.isPurchaseSuccess) {
+            this.loginService.lastMenuSelected = "home";
+            this.loginService.menuSelected = "ticket";
+            this.router.navigate(['Purchases']);
+        }
+        this.responsePopup = false;
     };
     PurchaseTicketsComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -41,17 +45,14 @@ var PurchaseTicketsComponent = (function () {
     };
     PurchaseTicketsComponent.prototype.formCompleted = function () {
         var _this = this;
-        //TODO - HANDLE ERROR RESPONSE - SHOW MESSAGE TO USER
         console.log("Total tickets: " + this.ticketsAmount);
         this.eventsService.addPurchase(this.loginService.userLoggedIn.email, this.params.get('eventId'), this.ticketsAmount)
             .then(function (result) {
-            if (result) {
-                console.log("Success");
+            _this.responsePopup = true;
+            if (result.succeed) {
                 _this.isPurchaseSuccess = true;
             }
-            else {
-                console.log("Error");
-            }
+            _this.msg = result.msg;
         });
     };
     PurchaseTicketsComponent = __decorate([
